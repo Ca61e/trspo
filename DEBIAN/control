@@ -1,0 +1,8 @@
+Package: trispo
+Version: 5.2.0
+Section: utils
+Priority: optional
+Architecture: amd64
+Depends: libstdc++6
+Maintainer: Pivonikl & Vodnik
+Description: check prime num
