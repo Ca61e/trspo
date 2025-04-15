@@ -13,16 +13,17 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: build
-      run: cd ./src && make 
+      run: |
+        cd ./src
+        make 
     - name: test
-      run: cd ./src && make test
-    - name: pre-package
-      run: sudo apt install -y debhelper-compat build-essential
+      run: |
+        cd ./src
+        make test
     - name: package
-      run: dpkg-buildpackage -us -uc
-    - name: working-test
-      run: cd .. && ls -la
-
+      run: |
+        cd ..
+        dpkg-deb --build package trispo.deb
     - name: create-release
       uses: ncipollo/release-action@v1.14.0
       with:
