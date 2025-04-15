@@ -27,10 +27,6 @@ jobs:
         cd ./src
         make
 
-    - name: Install application
-      run: |
-        sudo make install DESTDIR=/tmp
-
     # Этап 2: Тестирование программы
     - name: Run tests
       run: |
