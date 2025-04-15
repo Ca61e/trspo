@@ -51,12 +51,7 @@ jobs:
         dpkg-deb --build package trispo_1.0.0_amd64.deb
         mkdir -p artifacts
         mv trispo_1.0.0_amd64.deb artifacts/
-        
-    - name: Upload artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: trispo-package
-        path: artifacts/trispo_1.0.0_amd64.deb
+      
         
   deploy:
     needs: build_and_test
