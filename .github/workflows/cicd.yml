@@ -11,22 +11,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-    
-    # Этап сборки
     - name: Build the application
       run: |
         cd ./src
         make 
-
-    # Этап тестирования
+        
     - name: Run tests
       run: |
         cd ./src
         make test
     
-    # Этап упаковки в .deb
     - name: Package the application
       run: |
         mkdir -p deb-package/DEBIAN
@@ -42,7 +36,7 @@ jobs:
         dpkg-deb --build deb-package trispo.deb
 
     - name: Upload the deb package as an artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/checkout@v4
       with:
         name: trispo-deb-package
         path: trispo.deb
