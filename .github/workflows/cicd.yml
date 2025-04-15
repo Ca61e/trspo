@@ -1,78 +1,28 @@
-name: Prime Checker CI/CD
+name: CI/CD Workflow
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
-  build_and_test:
+  build:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Install dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y build-essential debhelper
-        
-    - name: Build
-      run: |
-        cd src
-        make clean
-        make
-        mkdir -p ../package/usr/bin
-        cp trispo ../package/usr/bin/
-        
+    - name: Check out repository
+      uses: actions/checkout@v2
+
+    - name: Set up GCC
+      run: sudo apt-get install -y g++
+
+    - name: Install Make
+      run: sudo apt-get install -y make
+
     - name: Run tests
       run: |
-        cd src
-        chmod +x ../scripts/test.sh
-        ../scripts/test.sh ./trispo
-        
-    - name: Create DEBIAN structure
-      run: |
-        mkdir -p package/DEBIAN
-        cat > package/DEBIAN/control <<EOF
-        Package: trispo
-        Version: 1.0.0
-        Section: utils
-        Priority: optional
-        Architecture: amd64
-        Depends: libstdc++6
-        Maintainer: Your Name <your.email@example.com>
-        Description: Prime number checker
-        EOF
-        
-    - name: Build package
-      run: |
-        dpkg-deb --build package trispo_1.0.0_amd64.deb
-        mkdir -p artifacts
-        mv trispo_1.0.0_amd64.deb artifacts/
-        
-    - name: Upload artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: trispo-package
-        path: artifacts/trispo_1.0.0_amd64.deb
-        
-  deploy:
-    needs: build_and_test
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    
-    steps:
-    - name: Download artifact
-      uses: actions/download-artifact@v3
-      with:
-        name: trispo-package
-        
-    - name: Create release
-      uses: ncipollo/release-action@v1
-      with:
-        artifacts: "trispo_1.0.0_amd64.deb"
-        token: ${{ secrets.GITHUB_TOKEN }}
-        tag: v1.0.0
-        body: "Prime number checker package"
+        cd ./src
+        make test
