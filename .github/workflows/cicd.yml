@@ -1,39 +1,34 @@
 name: CI/CD Pipeline
-
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
   pull_request:
-    branches:
-      - main
+    branches: [ "main" ]
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
 
     steps:
-    - name: Check out repository
-      uses: actions/checkout@v2
+    - uses: actions/checkout@v4
+    - name: build
+      run: cd ./src && make build
+    - name: test
+      run: cd ./src && make test
+    - name: pre-package
+      run: sudo apt install -y debhelper-compat build-essential
+    - name: package
+      run: dpkg-buildpackage -us -uc
+    - name: working-test
+      run: cd .. && ls -la
 
-    # Этап 1: Сборка приложения с помощью Makefile
-    - name: Set up GCC and Make
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y g++ make
-
-    - name: Build the application
-      run: |
-        cd ./src
-        make
-
-    # Этап 2: Тестирование программы
-    - name: Run tests
-      run: |
-        cd ./src
-        make test
-
-    # Этап 3: Упаковка в .deb пакет
-    - name: Build the deb package
-      run: make deb
-
+    - name: create-release
+      uses: ncipollo/release-action@v1.14.0
+      with:
+        artifactErrorsFailBuild: true 
+        artifact: ../trispo_5.2.0_amd64.deb  
+        body: Pivonikl
+        name: Pivondepula
+        tag: Litryshka
+        token: ${{ secrets.MY_SECRET_NAME }}
