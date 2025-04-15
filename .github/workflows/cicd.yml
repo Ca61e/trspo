@@ -42,11 +42,11 @@ jobs:
         name: trispo-deb-package
         path: trispo.deb
 
-    - name: Create GitHub release
+    - name: GitHub release
       uses: ncipollo/release-action@v1.14.0
       with:
-        artifact: trispo.deb
-        body: Release Notes
+        artifacts: trispo.deb
+        body: Pivo
         name: trispo-release
         tag: v5.2.0
         token: ${{ secrets.GITHUB_TOKEN }}
