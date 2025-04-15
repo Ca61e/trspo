@@ -24,10 +24,10 @@ jobs:
 
     - name: Build the project
       run: |
-        cd trspo/src
+        cd ../src
         make
+        ./trispo
 
     - name: Run tests
       run: |
-        cd trspo/src
         make test
