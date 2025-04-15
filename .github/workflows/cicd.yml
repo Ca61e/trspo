@@ -29,11 +29,9 @@ jobs:
 
     # Этап 2: Тестирование программы
     - name: Run tests
-      run: |
-        make test
+      run: make test
 
     # Этап 3: Упаковка в .deb пакет
     - name: Build the deb package
-      run: |
-        make deb
+      run: make deb
 
