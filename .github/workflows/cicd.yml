@@ -43,9 +43,3 @@ jobs:
         cd trspo/src
         make deb
 
-    # Этап 4: Загрузка артефакта (если необходимо)
-    - name: Upload deb package as an artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: trispo-deb-package
-        path: trspo/src/trispo_deb.deb
