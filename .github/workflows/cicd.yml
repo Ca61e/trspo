@@ -1,4 +1,4 @@
-name: CI/CD Workflow
+name: CI/CD Pipeline
 
 on:
   push:
@@ -11,18 +11,41 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Check out repository
       uses: actions/checkout@v2
 
-    - name: Set up GCC
-      run: sudo apt-get install -y g++
+    # Этап 1: Сборка приложения с помощью Makefile
+    - name: Set up GCC and Make
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y g++ make
 
-    - name: Install Make
-      run: sudo apt-get install -y make
+    - name: Build the application
+      run: |
+        cd trspo/src
+        make
 
+    - name: Install application
+      run: |
+        sudo make install DESTDIR=/tmp
+
+    # Этап 2: Тестирование программы
     - name: Run tests
       run: |
-        cd ./src
+        cd trspo/src
         make test
+
+    # Этап 3: Упаковка в .deb пакет
+    - name: Build the deb package
+      run: |
+        cd trspo/src
+        make deb
+
+    # Этап 4: Загрузка артефакта (если необходимо)
+    - name: Upload deb package as an artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: trispo-deb-package
+        path: trspo/src/trispo_deb.deb
