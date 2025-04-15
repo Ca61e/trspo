@@ -24,7 +24,7 @@ jobs:
 
     - name: Build the application
       run: |
-        cd trspo/src
+        cd ./src
         make
 
     - name: Install application
@@ -34,12 +34,10 @@ jobs:
     # Этап 2: Тестирование программы
     - name: Run tests
       run: |
-        cd trspo/src
         make test
 
     # Этап 3: Упаковка в .deb пакет
     - name: Build the deb package
       run: |
-        cd trspo/src
         make deb
 
