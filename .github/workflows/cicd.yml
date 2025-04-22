@@ -9,22 +9,54 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     permissions:
       contents: write
-  
+    outputs:
+      artifact-path: ${{ steps.build.outputs.artifact-path }}
     steps:
     - uses: actions/checkout@v4
+
     - name: Build the application
       run: |
         cd ./src
-        make 
-        
+        make
+
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: trispo-binary
+        path: ./src/trispo
+
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Download built binary
+      uses: actions/download-artifact@v3
+      with:
+        name: trispo-binary
+        path: ./src
+
+    - name: Make test script executable
+      run: chmod +x ./src/test.sh
+
     - name: Run tests
-      run: |
-        cd ./src
-        make test
-    
+      run: ./src/test.sh
+
+  package:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Download built binary
+      uses: actions/download-artifact@v3
+      with:
+        name: trispo-binary
+        path: ./src
+
     - name: Package the application
       run: |
         mkdir -p deb-package/DEBIAN
@@ -39,10 +71,10 @@ jobs:
         
         dpkg-deb --build deb-package trispo.deb
 
-    - name: Upload the deb package as an artifact
-      uses: actions/checkout@v4
+    - name: Upload deb package
+      uses: actions/upload-artifact@v3
       with:
-        name: trispo-deb-package
+        name: trispo-deb
         path: trispo.deb
 
     - name: GitHub release
