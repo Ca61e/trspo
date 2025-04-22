@@ -94,7 +94,7 @@ jobs:
     env:
       DOCKER_IMAGE_NAME: poltoraxa
       DOCKER_CONTEXT_DIR: trspo
-      DEB_ARTIFACT_NAME: trispo-deb-package
+      DEB_ARTIFACT_NAME: trispo-release
       DEB_FILENAME: trispo.deb
       GIT_BRANCH: main
   
