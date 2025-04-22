@@ -1,13 +1,12 @@
 FROM ubuntu:latest
 
-RUN apt-get update && apt-get install -y \
-  libstdc++6 \
-  wget \
-  dpkg \
-  && run -rf /var/lib/apt/lists/*
+#COPY *.deb /tmp/
+#RUN apt-get update && apt-get install -y /tmp/*.deb
 
-WORKDIR /app
-COPY trispo.deb /app/
-RUN dpkg -i trispo.deb
-RUN rm trispo.deb
-CMD [ "/app/trispo" ]
+COPY cicd/*.deb /tmp/
+
+RUN apt-get update && \
+    apt-get install -y /tmp/*.deb && \
+    rm -rf /var/lib/apt/lists/*
+
+CMD [ "/usr/bin/trispo" ]
