@@ -39,11 +39,10 @@ jobs:
         name: trispo-binary
         path: ./src
 
-    - name: Make test script executable
-      run: chmod +x ./src/test.sh
-
     - name: Run tests
-      run: ./src/test.sh
+      run: |
+        cd ./src
+        make test
 
   package:
     runs-on: ubuntu-latest
