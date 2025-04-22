@@ -22,7 +22,7 @@ jobs:
         make
 
     - name: Upload build artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifacts@v3
       with:
         name: trispo-binary
         path: ./src/trispo
