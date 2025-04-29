@@ -65,7 +65,7 @@ jobs:
       run: |
         mkdir -p deb-package/DEBIAN
         echo "Package: trispo" > deb-package/DEBIAN/control
-        echo "Version: 0.1.0" >> deb-package/DEBIAN/control
+        echo "Version: 0.1.5" >> deb-package/DEBIAN/control
         echo "Architecture: amd64" >> deb-package/DEBIAN/control
         echo "Maintainer: Pivonikl & Vodnik" >> deb-package/DEBIAN/control
         echo "Description: check prime num" >> deb-package/DEBIAN/control
@@ -87,7 +87,7 @@ jobs:
         artifacts: trispo.deb
         body: Pivo
         name: trispo-release
-        tag: v0.1.0
+        tag: v0.1.5
         token: ${{ secrets.GITHUB_TOKEN }}
         
   deploy:
