@@ -7,7 +7,7 @@ on:
     branches: ["main"]
     
 env:
-  DOCKER_IMAGE: docker.io/Pivonikl/trspo_dochub
+  DOCKER_IMAGE: docker.io/pivonikl/trspo_dochub
 
 jobs:
   build:
@@ -65,7 +65,7 @@ jobs:
       run: |
         mkdir -p deb-package/DEBIAN
         echo "Package: trispo" > deb-package/DEBIAN/control
-        echo "Version: 0.5.2" >> deb-package/DEBIAN/control
+        echo "Version: 0.2" >> deb-package/DEBIAN/control
         echo "Architecture: amd64" >> deb-package/DEBIAN/control
         echo "Maintainer: Pivonikl & Vodnik" >> deb-package/DEBIAN/control
         echo "Description: check prime num" >> deb-package/DEBIAN/control
@@ -87,7 +87,7 @@ jobs:
         artifacts: trispo.deb
         body: Pivo
         name: trispo-release
-        tag: v0.5.2
+        tag: v0.2
         token: ${{ secrets.GITHUB_TOKEN }}
         
   deploy:
