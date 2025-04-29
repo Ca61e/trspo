@@ -1,8 +1,5 @@
 FROM ubuntu:latest
 
-#COPY *.deb /tmp/
-#RUN apt-get update && apt-get install -y /tmp/*.deb
-
 COPY *.deb /tmp/
 
 RUN apt-get update && \
