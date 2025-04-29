@@ -3,10 +3,10 @@ FROM ubuntu:latest
 #COPY *.deb /tmp/
 #RUN apt-get update && apt-get install -y /tmp/*.deb
 
-COPY cicd/*.deb /tmp/
+COPY *.deb /tmp/
 
 RUN apt-get update && \
     apt-get install -y /tmp/*.deb && \
     rm -rf /var/lib/apt/lists/*
 
-CMD [ "/usr/bin/trispo" ]
+CMD [ "/src/trispo" ]
